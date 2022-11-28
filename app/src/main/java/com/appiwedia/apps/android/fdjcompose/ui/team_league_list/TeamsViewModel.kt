@@ -28,15 +28,17 @@ class TeamsViewModel @Inject constructor(
         getLeagues()
     }
 
+    fun deleteAllTeams() {
+        _teamState.value = TeamListState(teams = emptyList())
+    }
+
     private fun getLeagues() {
         getLeaguesUseCase().onEach { result ->
             when (result) {
                 is Resource.Error -> _leagueState.value =
                     LeagueListState(error = result.message ?: "An excepted error occurred")
                 is Resource.Loading -> _leagueState.value = LeagueListState(isLoading = true)
-                is Resource.Success -> _leagueState.value =
-                    LeagueListState(leagues = result.data?.map { it.strLeague }
-                        ?: emptyList())
+                is Resource.Success -> _leagueState.value = LeagueListState(leagues = result.data)
             }
         }.launchIn(viewModelScope)
     }
