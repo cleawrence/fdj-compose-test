@@ -1,6 +1,7 @@
 package com.appiwedia.apps.android.fdjcompose.data.remote.dto
 
 import android.os.Parcelable
+import com.appiwedia.apps.android.fdjcompose.domain.models.Team
 import com.squareup.moshi.Json
 import kotlinx.parcelize.Parcelize
 

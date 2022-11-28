@@ -10,5 +10,5 @@ data class Team(
     val strDescriptionEn: String?,
     val strCountry: String,
     val strLeague: String,
-    val strTeamBadge: String?
+    val strTeamBadge: String?,
 ) : Parcelable
