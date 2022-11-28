@@ -38,7 +38,7 @@ class TeamsViewModel @Inject constructor(
                 is Resource.Error -> _leagueState.value =
                     LeagueListState(error = result.message ?: "An excepted error occurred")
                 is Resource.Loading -> _leagueState.value = LeagueListState(isLoading = true)
-                is Resource.Success -> _leagueState.value = LeagueListState(leagues = result.data)
+                is Resource.Success -> _leagueState.value = LeagueListState(leagues = result.data ?: emptyList())
             }
         }.launchIn(viewModelScope)
     }
