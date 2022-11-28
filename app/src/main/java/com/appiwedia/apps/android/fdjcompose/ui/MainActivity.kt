@@ -1,4 +1,4 @@
-package com.appiwedia.apps.android.fdjcompose
+package com.appiwedia.apps.android.fdjcompose.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
