@@ -26,6 +26,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -35,6 +36,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.appiwedia.apps.android.fdjcompose.R
 import com.appiwedia.apps.android.fdjcompose.ui.team_league_list.TeamsViewModel
 import timber.log.Timber
 
@@ -55,7 +57,7 @@ fun LeagueListScreen(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        AutoComplete(
+        AutoCompleteSearchBar(
             leagueName,
             leagues = state.leagues,
             onCLearText = {
@@ -69,12 +71,7 @@ fun LeagueListScreen(
         if (teamsState.teams.isNotEmpty()) {
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
-                contentPadding = PaddingValues(
-                    start = 16.dp,
-                    top = 16.dp,
-                    end = 16.dp,
-                    bottom = 16.dp
-                ),
+                contentPadding = PaddingValues(16.dp),
             ) {
                 items(teamsState.teams) { team ->
                     TeamBadge(
@@ -108,7 +105,7 @@ fun LeagueListScreen(
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun AutoComplete(
+fun AutoCompleteSearchBar(
     league: MutableState<String>,
     leagues: List<String>,
     onSelectedLeague: (String) -> Unit,
@@ -159,7 +156,7 @@ fun AutoComplete(
                         .onGloballyPositioned { coordinates ->
                             textFieldSize = coordinates.size.toSize()
                         },
-                    label = { Text(text = "Search by league") },
+                    label = { Text(text = stringResource(R.string.search_by_league)) },
                     value = league.value,
                     onValueChange = {
                         league.value = it

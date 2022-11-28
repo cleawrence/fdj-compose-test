@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.appiwedia.apps.android.fdjcompose.ui.team_detail.components.TeamDetailScreen
 import com.appiwedia.apps.android.fdjcompose.ui.team_league_list.components.LeagueListScreen
 import com.appiwedia.apps.android.fdjcompose.ui.theme.FdjComposeTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -31,6 +32,11 @@ class MainActivity : ComponentActivity() {
                             route = Screen.LeagueListScreen.route
                         ) {
                             LeagueListScreen(navController)
+                        }
+                        composable(
+                            route = Screen.TeamDetailScreen.route + "/{teamName}"
+                        ) {
+                            TeamDetailScreen()
                         }
                     }
                 }
