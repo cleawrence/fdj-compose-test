@@ -26,6 +26,6 @@ fun TeamBadge(
         contentScale = ContentScale.FillBounds,
         model = ImageRequest.Builder(LocalContext.current).crossfade(true).data(teamBannerUrl)
             .build(),
-        contentDescription = "TeamBanner",
+        contentDescription = "TeamBadge of $teamName",
     )
 }

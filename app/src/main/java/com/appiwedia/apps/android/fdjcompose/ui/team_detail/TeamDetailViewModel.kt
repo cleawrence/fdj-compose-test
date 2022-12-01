@@ -5,9 +5,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.appiwedia.apps.android.fdjcompose.R
 import com.appiwedia.apps.android.fdjcompose.common.Constants
 import com.appiwedia.apps.android.fdjcompose.common.Resource
 import com.appiwedia.apps.android.fdjcompose.domain.use_case.get_team_detail.GetTeamDetailUseCase
+import com.appiwedia.apps.android.fdjcompose.utils.UiText
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -31,9 +33,12 @@ class TeamDetailViewModel @Inject constructor(
     private fun getTeamDetail(teamName: String) {
         getTeamDetailUseCase(teamName).onEach { result ->
             when (result) {
-                is Resource.Error -> _teamDetailState.value = TeamDetailState(error = result.message ?: "")
+                is Resource.Error -> _teamDetailState.value =
+                    TeamDetailState(error = (result.message ?: UiText.StringResource(
+                        R.string.generic_error)) as String)
                 is Resource.Loading -> _teamDetailState.value = TeamDetailState(isLoading = true)
-                is Resource.Success -> _teamDetailState.value = TeamDetailState(teamDetail = result.data)
+                is Resource.Success -> _teamDetailState.value =
+                    TeamDetailState(teamDetail = result.data)
             }
         }.launchIn(viewModelScope)
     }

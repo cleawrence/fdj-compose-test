@@ -36,7 +36,7 @@ class MainActivity : ComponentActivity() {
                         composable(
                             route = Screen.TeamDetailScreen.route + "/{teamName}"
                         ) {
-                            TeamDetailScreen()
+                            TeamDetailScreen(navController = navController)
                         }
                     }
                 }

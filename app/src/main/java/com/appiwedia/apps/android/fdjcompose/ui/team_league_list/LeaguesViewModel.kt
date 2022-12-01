@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @HiltViewModel
-class TeamsViewModel @Inject constructor(
+class LeaguesViewModel @Inject constructor(
     private val getTeamsUseCase: GetTeamsUseCase,
     private val getLeaguesUseCase: GetLeaguesUseCase,
 ) : ViewModel() {
@@ -37,7 +37,7 @@ class TeamsViewModel @Inject constructor(
     private fun getLeagues() {
         getLeaguesUseCase().onEach { result ->
             when (result) {
-                is Resource.Error -> _leagueState.value = LeagueListState(error = (result.message  ?: UiText.StringResource(R.string.search_by_league)) as String)
+                is Resource.Error -> _leagueState.value = LeagueListState(error = (result.message  ?: UiText.StringResource(R.string.generic_error)) as String)
                 is Resource.Loading -> _leagueState.value = LeagueListState(isLoading = true)
                 is Resource.Success -> _leagueState.value = LeagueListState(leagues = result.data ?: emptyList())
             }
@@ -47,7 +47,7 @@ class TeamsViewModel @Inject constructor(
     fun getTeamsFromLeague(strTeam: String) {
         getTeamsUseCase(strTeam).onEach { result ->
             when (result) {
-                is Resource.Error -> _teamState.value = TeamListState(error = result.message ?: "Une erreur inattendue est survenue")
+                is Resource.Error -> _teamState.value = TeamListState(error = (result.message  ?: UiText.StringResource(R.string.generic_error)) as String)
                 is Resource.Loading -> _teamState.value = TeamListState(isLoading = true)
                 is Resource.Success -> _teamState.value = TeamListState(teams = result.data ?: emptyList())
             }

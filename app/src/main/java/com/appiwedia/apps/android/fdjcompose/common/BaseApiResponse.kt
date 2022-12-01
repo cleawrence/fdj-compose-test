@@ -1,5 +1,7 @@
 package com.appiwedia.apps.android.fdjcompose.common
 
+import com.appiwedia.apps.android.fdjcompose.R
+import com.appiwedia.apps.android.fdjcompose.utils.UiText
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
@@ -26,5 +28,5 @@ abstract class BaseApiResponse {
     }
 
     private fun <T> error(errorMessage: Throwable): Resource<T> =
-        Resource.Error(errorMessage.message ?: "Une erreur inattendue est survenue")
+        Resource.Error((errorMessage.message ?: UiText.StringResource(R.string.generic_error)) as String)
 }

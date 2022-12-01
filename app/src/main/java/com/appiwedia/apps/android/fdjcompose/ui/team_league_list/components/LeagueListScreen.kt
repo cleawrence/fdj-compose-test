@@ -36,14 +36,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.appiwedia.apps.android.fdjcompose.R
 import com.appiwedia.apps.android.fdjcompose.ui.Screen
-import com.appiwedia.apps.android.fdjcompose.ui.team_league_list.TeamsViewModel
+import com.appiwedia.apps.android.fdjcompose.ui.team_league_list.LeaguesViewModel
 import timber.log.Timber
-
 
 @Composable
 fun LeagueListScreen(
     navController: NavController,
-    viewModel: TeamsViewModel = hiltViewModel(),
+    viewModel: LeaguesViewModel = hiltViewModel(),
 ) {
     val state = viewModel.leagueState.value
     val teamsState = viewModel.teamState.value
