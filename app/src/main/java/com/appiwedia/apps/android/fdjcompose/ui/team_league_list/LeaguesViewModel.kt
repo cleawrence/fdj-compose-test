@@ -37,9 +37,12 @@ class LeaguesViewModel @Inject constructor(
     private fun getLeagues() {
         getLeaguesUseCase().onEach { result ->
             when (result) {
-                is Resource.Error -> _leagueState.value = LeagueListState(error = (result.message  ?: UiText.StringResource(R.string.generic_error)) as String)
+                is Resource.Error -> _leagueState.value = LeagueListState(error = (result.message
+                    ?: UiText.StringResource(R.string.generic_error)) as String)
                 is Resource.Loading -> _leagueState.value = LeagueListState(isLoading = true)
-                is Resource.Success -> _leagueState.value = LeagueListState(leagues = result.data ?: emptyList())
+                is Resource.Success -> _leagueState.value =
+                    LeagueListState(leagues = result.data?.map { it.strLeague } ?: emptyList())
+
             }
         }.launchIn(viewModelScope)
     }
@@ -47,9 +50,11 @@ class LeaguesViewModel @Inject constructor(
     fun getTeamsFromLeague(strTeam: String) {
         getTeamsUseCase(strTeam).onEach { result ->
             when (result) {
-                is Resource.Error -> _teamState.value = TeamListState(error = (result.message  ?: UiText.StringResource(R.string.generic_error)) as String)
+                is Resource.Error -> _teamState.value = TeamListState(error = (result.message
+                    ?: UiText.StringResource(R.string.generic_error)) as String)
                 is Resource.Loading -> _teamState.value = TeamListState(isLoading = true)
-                is Resource.Success -> _teamState.value = TeamListState(teams = result.data ?: emptyList())
+                is Resource.Success -> _teamState.value =
+                    TeamListState(teams = result.data ?: emptyList())
             }
         }.launchIn(viewModelScope)
     }
