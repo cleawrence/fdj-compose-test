@@ -1,4 +1,4 @@
-package com.appiwedia.apps.android.fdjcompose.data.remote.dto
+package com.appiwedia.apps.android.fdjcompose.data.remote.dto.team
 
 import android.os.Parcelable
 import com.appiwedia.apps.android.fdjcompose.domain.models.Team

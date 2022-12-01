@@ -3,8 +3,8 @@ package com.appiwedia.apps.android.fdjcompose.domain.use_case.get_leagues
 import com.appiwedia.apps.android.fdjcompose.common.BaseApiResponse
 import com.appiwedia.apps.android.fdjcompose.common.DispatcherProvider
 import com.appiwedia.apps.android.fdjcompose.common.Resource
-import com.appiwedia.apps.android.fdjcompose.data.remote.dto.toLeague
-import com.appiwedia.apps.android.fdjcompose.domain.repository.LeagueRepository
+import com.appiwedia.apps.android.fdjcompose.data.remote.dto.league.toLeague
+import com.appiwedia.apps.android.fdjcompose.data.repository.LeagueRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject

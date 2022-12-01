@@ -2,9 +2,9 @@ package com.appiwedia.apps.android.fdjcompose.di
 
 import com.appiwedia.apps.android.fdjcompose.common.Constants
 import com.appiwedia.apps.android.fdjcompose.common.DispatcherProvider
-import com.appiwedia.apps.android.fdjcompose.data.LeagueServiceApi
+import com.appiwedia.apps.android.fdjcompose.data.service.LeagueServiceApi
 import com.appiwedia.apps.android.fdjcompose.data.repository.LeagueRepositoryImpl
-import com.appiwedia.apps.android.fdjcompose.domain.repository.LeagueRepository
+import com.appiwedia.apps.android.fdjcompose.data.repository.LeagueRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

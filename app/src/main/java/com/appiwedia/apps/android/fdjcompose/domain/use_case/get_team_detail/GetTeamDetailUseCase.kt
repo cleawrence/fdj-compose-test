@@ -1,9 +1,9 @@
 package com.appiwedia.apps.android.fdjcompose.domain.use_case.get_team_detail
 
 import com.appiwedia.apps.android.fdjcompose.common.Resource
-import com.appiwedia.apps.android.fdjcompose.data.remote.dto.toTeam
+import com.appiwedia.apps.android.fdjcompose.data.remote.dto.team.toTeam
 import com.appiwedia.apps.android.fdjcompose.domain.models.Team
-import com.appiwedia.apps.android.fdjcompose.domain.repository.LeagueRepository
+import com.appiwedia.apps.android.fdjcompose.data.repository.LeagueRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
@@ -16,7 +16,7 @@ class GetTeamDetailUseCase @Inject constructor(
     operator fun invoke(teamName: String) : Flow<Resource<Team>> = flow {
         try {
             emit(Resource.Loading())
-            val team = repository.getTeamDetailByName(teamName)[0].toTeam()
+            val team = repository.getTeamDetailByName(teamName).teams[0].toTeam()
             emit(Resource.Success(team))
         } catch (e: HttpException) {
             emit(Resource.Error(e.localizedMessage ?: "Une erreur inattendue est survenue"))

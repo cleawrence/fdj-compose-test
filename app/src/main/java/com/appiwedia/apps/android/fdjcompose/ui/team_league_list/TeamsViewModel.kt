@@ -4,9 +4,11 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.appiwedia.apps.android.fdjcompose.R
 import com.appiwedia.apps.android.fdjcompose.common.Resource
 import com.appiwedia.apps.android.fdjcompose.domain.use_case.get_leagues.GetLeaguesUseCase
 import com.appiwedia.apps.android.fdjcompose.domain.use_case.get_teams_ligue.GetTeamsUseCase
+import com.appiwedia.apps.android.fdjcompose.utils.UiText
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -35,8 +37,7 @@ class TeamsViewModel @Inject constructor(
     private fun getLeagues() {
         getLeaguesUseCase().onEach { result ->
             when (result) {
-                is Resource.Error -> _leagueState.value =
-                    LeagueListState(error = result.message ?: "Une erreur inattendue est survenue")
+                is Resource.Error -> _leagueState.value = LeagueListState(error = (result.message  ?: UiText.StringResource(R.string.search_by_league)) as String)
                 is Resource.Loading -> _leagueState.value = LeagueListState(isLoading = true)
                 is Resource.Success -> _leagueState.value = LeagueListState(leagues = result.data ?: emptyList())
             }
@@ -46,14 +47,9 @@ class TeamsViewModel @Inject constructor(
     fun getTeamsFromLeague(strTeam: String) {
         getTeamsUseCase(strTeam).onEach { result ->
             when (result) {
-                is Resource.Error -> {
-                    _teamState.value =
-                        TeamListState(error = result.message ?: "Une erreur inattendue est survenue")
-                }
+                is Resource.Error -> _teamState.value = TeamListState(error = result.message ?: "Une erreur inattendue est survenue")
                 is Resource.Loading -> _teamState.value = TeamListState(isLoading = true)
-                is Resource.Success -> {
-                    _teamState.value = TeamListState(teams = result.data ?: emptyList())
-                }
+                is Resource.Success -> _teamState.value = TeamListState(teams = result.data ?: emptyList())
             }
         }.launchIn(viewModelScope)
     }

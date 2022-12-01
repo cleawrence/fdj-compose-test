@@ -19,7 +19,7 @@ class TeamDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
-    val _teamDetailState = mutableStateOf(TeamDetailState())
+    private val _teamDetailState = mutableStateOf(TeamDetailState())
     val teamDetailState: State<TeamDetailState> = _teamDetailState
 
     init {
@@ -31,11 +31,9 @@ class TeamDetailViewModel @Inject constructor(
     private fun getTeamDetail(teamName: String) {
         getTeamDetailUseCase(teamName).onEach { result ->
             when (result) {
-                is Resource.Error -> _teamDetailState.value =
-                    TeamDetailState(error = result.message ?: "")
+                is Resource.Error -> _teamDetailState.value = TeamDetailState(error = result.message ?: "")
                 is Resource.Loading -> _teamDetailState.value = TeamDetailState(isLoading = true)
-                is Resource.Success -> _teamDetailState.value =
-                    TeamDetailState(teamDetail = result.data)
+                is Resource.Success -> _teamDetailState.value = TeamDetailState(teamDetail = result.data)
             }
         }.launchIn(viewModelScope)
     }

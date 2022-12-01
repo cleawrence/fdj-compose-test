@@ -1,6 +1,5 @@
 package com.appiwedia.apps.android.fdjcompose.ui.team_league_list.components
 
-import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -24,7 +23,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -37,6 +35,7 @@ import androidx.compose.ui.unit.toSize
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.appiwedia.apps.android.fdjcompose.R
+import com.appiwedia.apps.android.fdjcompose.ui.Screen
 import com.appiwedia.apps.android.fdjcompose.ui.team_league_list.TeamsViewModel
 import timber.log.Timber
 
@@ -48,7 +47,7 @@ fun LeagueListScreen(
 ) {
     val state = viewModel.leagueState.value
     val teamsState = viewModel.teamState.value
-    val activity = LocalContext.current
+
     val leagueName = remember {
         mutableStateOf("")
     }
@@ -58,7 +57,7 @@ fun LeagueListScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         AutoCompleteSearchBar(
-            leagueName,
+            leagueName = leagueName,
             leagues = state.leagues,
             onCLearText = {
                 viewModel.deleteAllTeams()
@@ -79,7 +78,7 @@ fun LeagueListScreen(
                         teamName = team.strTeam,
                         teamBannerUrl = team.strTeamBadge ?: ""
                     ) { teamName ->
-                        Toast.makeText(activity, teamName, Toast.LENGTH_SHORT).show()
+                        navController.navigate(Screen.TeamDetailScreen.route + "/${teamName}")
                     }
                 }
             }
@@ -106,7 +105,7 @@ fun LeagueListScreen(
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun AutoCompleteSearchBar(
-    league: MutableState<String>,
+    leagueName: MutableState<String>,
     leagues: List<String>,
     onSelectedLeague: (String) -> Unit,
     onCLearText: () -> Unit,
@@ -157,9 +156,9 @@ fun AutoCompleteSearchBar(
                             textFieldSize = coordinates.size.toSize()
                         },
                     label = { Text(text = stringResource(R.string.search_by_league)) },
-                    value = league.value,
+                    value = leagueName.value,
                     onValueChange = {
-                        league.value = it
+                        leagueName.value = it
                         expanded = true
                     },
                     colors = TextFieldDefaults.textFieldColors(
@@ -181,7 +180,7 @@ fun AutoCompleteSearchBar(
                     singleLine = true,
                     trailingIcon = {
                         IconButton(onClick = {
-                            league.value = ""
+                            leagueName.value = ""
                             onCLearText.invoke()
                             keyboardController?.hide()
                         }) {
@@ -207,17 +206,17 @@ fun AutoCompleteSearchBar(
                         modifier = Modifier.heightIn(max = 150.dp),
                     ) {
 
-                        if (league.value.isNotEmpty()) {
+                        if (leagueName.value.isNotEmpty()) {
                             items(
                                 leagues.filter {
                                     it.lowercase()
-                                        .contains(league.value.lowercase()) || it.lowercase()
+                                        .contains(leagueName.value.lowercase()) || it.lowercase()
                                         .contains("others")
                                 }
                                     .sorted()
                             ) {
-                                LeaguesItems(title = it) { title ->
-                                    league.value = title
+                                LeaguesItem(title = it) { title ->
+                                    leagueName.value = title
                                     expanded = false
                                     keyboardController?.hide()
                                     onSelectedLeague.invoke(title)
@@ -227,8 +226,8 @@ fun AutoCompleteSearchBar(
                             items(
                                 leagues.sorted()
                             ) {
-                                LeaguesItems(title = it) { title ->
-                                    league.value = title
+                                LeaguesItem(title = it) { title ->
+                                    leagueName.value = title
                                     expanded = false
                                     keyboardController?.hide()
                                     onSelectedLeague.invoke(title)
@@ -243,7 +242,7 @@ fun AutoCompleteSearchBar(
 }
 
 @Composable
-fun LeaguesItems(
+fun LeaguesItem(
     title: String,
     onSelect: (String) -> Unit,
 ) {
