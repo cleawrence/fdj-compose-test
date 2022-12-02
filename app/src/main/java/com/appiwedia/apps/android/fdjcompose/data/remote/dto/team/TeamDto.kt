@@ -44,9 +44,9 @@ data class TeamDto(
     @Json(name = "strDescriptionEN")
     val strDescriptionEN: String?,
     @Json(name = "strDescriptionES")
-    val strDescriptionES: String,
+    val strDescriptionES: String?,
     @Json(name = "strDescriptionFR")
-    val strDescriptionFR: String,
+    val strDescriptionFR: String?,
     @Json(name = "strDescriptionHU")
     val strDescriptionHU: String?,
     @Json(name = "strDescriptionIL")

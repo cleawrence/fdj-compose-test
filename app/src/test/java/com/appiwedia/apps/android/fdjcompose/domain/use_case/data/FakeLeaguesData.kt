@@ -45,10 +45,10 @@ val league6 = LeagueDto(
 val leagues = listOf(league1, league2, league3, league4, league5, league6)
 
 object FakeLeaguesData {
-    fun buildProducts(): Pair<String, LeaguesResponse> {
+    fun build(): Pair<String, LeaguesResponse> {
         val moshi = Moshi.Builder().build()
         val adapter = moshi.adapter(LeaguesResponse::class.java)
-        val productsResponse = LeaguesResponse(leagues)
-        return Pair(adapter.toJson(productsResponse), productsResponse)
+        val leaguesResponse = LeaguesResponse(leagues)
+        return Pair(adapter.toJson(leaguesResponse), leaguesResponse)
     }
 }

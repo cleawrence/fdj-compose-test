@@ -99,7 +99,7 @@ class GetLeaguesUseCaseTest {
 
     @Test
     fun `check successful response for get all leagues`() = runTest {
-        val fakeResponse = FakeLeaguesData.buildProducts()
+        val fakeResponse = FakeLeaguesData.build()
 
         val response = MockResponse()
             .setBody(fakeResponse.first)
@@ -113,6 +113,9 @@ class GetLeaguesUseCaseTest {
             flow.collect {
                 assert(it is Resource.Success)
                 assert((it as Resource.Success).data?.get(0)?.strLeague == fakeResponse.second.leagues[0].strLeague)
+                assert(it.data?.get(0)?.idLeague == fakeResponse.second.leagues[0].idLeague)
+                assert(it.data?.get(0)?.strSport == fakeResponse.second.leagues[0].strSport)
+                assert(it.data?.get(0)?.strLeagueAlternate == fakeResponse.second.leagues[0].strLeagueAlternate)
             }
         }
     }
