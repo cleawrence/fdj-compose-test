@@ -16,13 +16,3 @@ data class LeagueDto(
     @Json(name = "strSport")
     val strSport: String,
 ) : Parcelable
-
-
-fun LeagueDto.toLeague(): League {
-    return League(
-        idLeague = idLeague,
-        strLeague = strLeague,
-        strLeagueAlternate = strLeagueAlternate,
-        strSport = strSport
-    )
-}

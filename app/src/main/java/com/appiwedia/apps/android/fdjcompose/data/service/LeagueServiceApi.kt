@@ -14,5 +14,4 @@ interface LeagueServiceApi {
 
     @GET("searchteams.php")
     suspend fun getTeamDetailByName(@Query("t") teamName: String): TeamsResponse
-
 }

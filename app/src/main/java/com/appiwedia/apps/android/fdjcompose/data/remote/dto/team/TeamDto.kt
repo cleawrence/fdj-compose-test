@@ -140,14 +140,3 @@ data class TeamDto(
     @Json(name = "strYoutube")
     val strYoutube: String,
 ) : Parcelable
-
-fun TeamDto.toTeam(): Team {
-    return Team(
-        strTeam = strTeam,
-        strLeague = strLeague,
-        strCountry = strCountry,
-        strTeamBanner = strTeamBanner,
-        strTeamBadge = strTeamBadge,
-        strDescriptionEn = strDescriptionEN
-    )
-}

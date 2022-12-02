@@ -100,10 +100,10 @@ fun LeagueListScreen(
     }
 }
 
-
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun AutoCompleteSearchBar(
+    modifier: Modifier = Modifier,
     leagueName: MutableState<String>,
     leagues: List<String>,
     onSelectedLeague: (String) -> Unit,
@@ -128,33 +128,24 @@ fun AutoCompleteSearchBar(
     }
 
     Column(
-        modifier = Modifier
-            .padding(30.dp)
+        modifier = modifier
+            .padding(8.dp)
             .fillMaxWidth()
-            .clickable(
-                interactionSource = interactionSource,
-                indication = null,
-                onClick = {
-                    expanded = false
-                }
-            )
-    ) {
+            .clickable(interactionSource = interactionSource, indication = null, onClick = {
+                expanded = false
+            })) {
         Column(modifier = Modifier.fillMaxWidth()) {
-
             Row(modifier = Modifier.fillMaxWidth()) {
-                TextField(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(heightTextFields)
-                        .border(
-                            width = 1.8.dp,
-                            color = Color.Green,
-                            shape = RoundedCornerShape(15.dp)
-                        )
-                        .onGloballyPositioned { coordinates ->
-                            textFieldSize = coordinates.size.toSize()
-                        },
-                    label = { Text(text = stringResource(R.string.search_by_league)) },
+                TextField(modifier = Modifier
+                    .fillMaxWidth()
+                    .height(heightTextFields)
+                    .border(width = 1.2.dp,
+                        color = Color.DarkGray,
+                        shape = RoundedCornerShape(10.dp))
+                    .onGloballyPositioned { coordinates ->
+                        textFieldSize = coordinates.size.toSize()
+                    },
+                    label = { Text(text = stringResource(id = R.string.search_by_league)) },
                     value = leagueName.value,
                     onValueChange = {
                         leagueName.value = it
@@ -165,14 +156,9 @@ fun AutoCompleteSearchBar(
                         focusedIndicatorColor = Color.Transparent,
                         unfocusedIndicatorColor = Color.Transparent,
                     ),
-                    textStyle = TextStyle(
-                        color = Color.Red,
-                        fontSize = 16.sp
-                    ),
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Text,
-                        imeAction = ImeAction.Done
-                    ),
+                    textStyle = TextStyle(fontSize = 16.sp),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text,
+                        imeAction = ImeAction.Done),
                     keyboardActions = KeyboardActions(onDone = {
                         keyboardController?.hide()
                     }),
@@ -194,26 +180,21 @@ fun AutoCompleteSearchBar(
             }
 
             AnimatedVisibility(visible = expanded) {
-                Card(
-                    modifier = Modifier
-                        .padding(horizontal = 5.dp)
-                        .width(textFieldSize.width.dp),
+                Card(modifier = Modifier
+                    .padding(horizontal = 5.dp)
+                    .width(textFieldSize.width.dp),
                     elevation = 15.dp,
-                    shape = RoundedCornerShape(10.dp)
-                ) {
+                    shape = RoundedCornerShape(10.dp)) {
                     LazyColumn(
                         modifier = Modifier.heightIn(max = 150.dp),
                     ) {
 
                         if (leagueName.value.isNotEmpty()) {
-                            items(
-                                leagues.filter {
-                                    it.lowercase()
-                                        .contains(leagueName.value.lowercase()) || it.lowercase()
-                                        .contains("others")
-                                }
-                                    .sorted()
-                            ) {
+                            items(leagues.filter {
+                                it.lowercase()
+                                    .contains(leagueName.value.lowercase()) || it.lowercase()
+                                    .contains("others")
+                            }.sorted()) {
                                 LeaguesItem(title = it) { title ->
                                     leagueName.value = title
                                     expanded = false
@@ -222,9 +203,7 @@ fun AutoCompleteSearchBar(
                                 }
                             }
                         } else {
-                            items(
-                                leagues.sorted()
-                            ) {
+                            items(leagues.sorted()) {
                                 LeaguesItem(title = it) { title ->
                                     leagueName.value = title
                                     expanded = false

@@ -7,5 +7,5 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class LeaguesResponse(
     @Json(name = "leagues")
-    val leagues: List<LeagueDto>,
+    val leagues: List<LeagueDto>
 ) : Parcelable

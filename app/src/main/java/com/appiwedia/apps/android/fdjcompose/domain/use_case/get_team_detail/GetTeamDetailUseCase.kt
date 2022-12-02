@@ -13,8 +13,9 @@ import javax.inject.Inject
 class GetTeamDetailUseCase @Inject constructor(
     private val repository: LeagueRepository,
     private val dispatchers: DispatcherProvider,
-    private val mapper: TeamDomainMapper,
+    private val mapper: TeamDomainMapper
 ) : BaseApiResponse() {
+
     operator fun invoke(teamName: String): Flow<Resource<Team>> = flow {
         emit(safeApiCall(dispatchers.default) {
             mapper.toDomain(repository.getTeamDetailByName(teamName)).teams[0]

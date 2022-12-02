@@ -6,7 +6,7 @@ import com.appiwedia.apps.android.fdjcompose.data.remote.dto.team.TeamsResponse
 import javax.inject.Inject
 
 class LeagueRepositoryImpl @Inject constructor(
-    private val api: LeagueServiceApi,
+    private val api: LeagueServiceApi
 ) : LeagueRepository {
 
     override suspend fun getAllLeagues(): LeaguesResponse {

@@ -13,7 +13,7 @@ import javax.inject.Inject
 class GetTeamsUseCase @Inject constructor(
     private val repository: LeagueRepository,
     private val dispatchers: DispatcherProvider,
-    private val mapper: TeamDomainMapper,
+    private val mapper: TeamDomainMapper
 ) : BaseApiResponse() {
 
     operator fun invoke(strTeam: String): Flow<Resource<List<Team>?>> = flow {
