@@ -22,7 +22,7 @@ class GetTeamsUseCase @Inject constructor(
         })
     }
 
-    private fun filterTeamsByDescendingWithOneTimeByTwo(data: List<Team>?): List<Team>? {
+    fun filterTeamsByDescendingWithOneTimeByTwo(data: List<Team>?): List<Team>? {
         return data?.sortedByDescending { it.strTeam }?.filterIndexed { index, _ ->
             index % 2 == 0
         }

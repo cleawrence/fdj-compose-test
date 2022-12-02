@@ -5,6 +5,7 @@ import com.appiwedia.apps.android.fdjcompose.common.Resource
 import com.appiwedia.apps.android.fdjcompose.data.repository.LeagueRepositoryImpl
 import com.appiwedia.apps.android.fdjcompose.data.service.LeagueServiceApi
 import com.appiwedia.apps.android.fdjcompose.domain.mapper.TeamDomainMapper
+import com.appiwedia.apps.android.fdjcompose.domain.use_case.data.FakeTeams
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.launch
@@ -94,5 +95,19 @@ class GetTeamsUseCaseTest {
                 assert((it as Resource.Error).message.equals("Http Exception: HTTP 500 Server Error"))
             }
         }
+    }
+
+    @Test
+    fun test_filterByDescendingWith1OutOf2_teams() = runTest {
+        val fakeResponse = mapper.toDomain(FakeTeams.buildProducts().second).teams
+        val teamsDescendingOrderWith1OutOf2 =
+            getTeamsUseCase.filterTeamsByDescendingWithOneTimeByTwo(fakeResponse)
+
+        val sizeNormal = fakeResponse.size
+        val sizeTeamsFiltered = teamsDescendingOrderWith1OutOf2?.size ?: 1
+
+        assert(fakeResponse.last().strTeam == teamsDescendingOrderWith1OutOf2?.first()?.strTeam)
+        assert((sizeTeamsFiltered % 2 == 0))
+        assert(sizeTeamsFiltered.div(sizeNormal) == 0)
     }
 }

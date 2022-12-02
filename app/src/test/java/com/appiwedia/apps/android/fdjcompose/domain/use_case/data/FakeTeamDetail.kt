@@ -73,14 +73,14 @@ val teamDetail = TeamDto(
     strLocked = "unlocked"
 )
 
-val teams = listOf(teamDetail)
+val teamsDetail = listOf(teamDetail)
 
 
 object FakeTeamDetail {
     fun build(): Pair<String, TeamsResponse> {
         val moshi = Moshi.Builder().build()
         val adapter = moshi.adapter(TeamsResponse::class.java)
-        val teamsResponse = TeamsResponse(teams = teams)
+        val teamsResponse = TeamsResponse(teams = teamsDetail)
         return Pair(adapter.toJson(teamsResponse), teamsResponse)
     }
 }
