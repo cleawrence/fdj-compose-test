@@ -617,7 +617,7 @@ val team20 = TeamDto(
     strLocked = "unlocked"
 )
 
-val teams = listOf(team, team2, team3, team4, team16, team17, team18, team19, team20)
+val teams = listOf(team, team2, team3, team4, team16, team17, team18, team19)
 
 object FakeTeams {
     fun buildProducts(): Pair<String, TeamsResponse> {

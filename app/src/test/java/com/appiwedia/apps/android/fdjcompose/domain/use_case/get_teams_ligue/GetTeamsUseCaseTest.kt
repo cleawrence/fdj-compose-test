@@ -98,6 +98,27 @@ class GetTeamsUseCaseTest {
     }
 
     @Test
+    fun check_if_teams_are_successfully_retrieved() = runTest {
+        val fakeResponse = FakeTeams.buildProducts()
+
+        val response = MockResponse()
+            .setBody(fakeResponse.first)
+            .setResponseCode(200)
+
+        mockWebServer.enqueue(response)
+
+        val flow = getTeamsUseCase.invoke("")
+
+        launch {
+            flow.collect {
+                println(it.data)
+                assert(it is Resource.Success)
+                assert((it as Resource.Success).data?.get(0)?.strLeague == fakeResponse.second.teams[0].strLeague)
+            }
+        }
+    }
+    
+    @Test
     fun test_filterByDescendingWith1OutOf2_teams() = runTest {
         val fakeResponse = mapper.toDomain(FakeTeams.buildProducts().second).teams
         val teamsDescendingOrderWith1OutOf2 =
