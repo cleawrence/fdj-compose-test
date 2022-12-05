@@ -99,7 +99,7 @@ class GetTeamsUseCaseTest {
 
     @Test
     fun check_if_teams_are_successfully_retrieved() = runTest {
-        val fakeResponse = FakeTeams.buildProducts()
+        val fakeResponse = FakeTeams.build()
 
         val response = MockResponse()
             .setBody(fakeResponse.first)
@@ -117,10 +117,10 @@ class GetTeamsUseCaseTest {
             }
         }
     }
-    
+
     @Test
     fun test_filterByDescendingWith1OutOf2_teams() = runTest {
-        val fakeResponse = mapper.toDomain(FakeTeams.buildProducts().second).teams
+        val fakeResponse = mapper.toDomain(FakeTeams.build().second).teams
         val teamsDescendingOrderWith1OutOf2 =
             getTeamsUseCase.filterTeamsByDescendingWithOneTimeByTwo(fakeResponse)
 

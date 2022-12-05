@@ -620,10 +620,10 @@ val team20 = TeamDto(
 val teams = listOf(team, team2, team3, team4, team16, team17, team18, team19)
 
 object FakeTeams {
-    fun buildProducts(): Pair<String, TeamsResponse> {
+    fun build(): Pair<String, TeamsResponse> {
         val moshi = Moshi.Builder().build()
         val adapter = moshi.adapter(TeamsResponse::class.java)
-        val productsResponse = TeamsResponse(teams)
-        return Pair(adapter.toJson(productsResponse), productsResponse)
+        val teamsResponse = TeamsResponse(teams)
+        return Pair(adapter.toJson(teamsResponse), teamsResponse)
     }
 }
