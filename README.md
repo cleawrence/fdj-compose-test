@@ -1,6 +1,6 @@
 # fdj-compose-test
 * Pattern UI MVVM
-* 3 layers (data - domain - ui) 
+* Clean Archi 3 layers (data - domain - ui) 
 * JetPack Compose 
 * Repository Pattern
 * Dependency Injection Hilt-Dagger
