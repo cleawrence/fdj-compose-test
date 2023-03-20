@@ -4,7 +4,7 @@ import com.appiwedia.apps.android.fdjcompose.CoroutineTestRule
 import com.appiwedia.apps.android.fdjcompose.common.Resource
 import com.appiwedia.apps.android.fdjcompose.data.repository.LeagueRepositoryImpl
 import com.appiwedia.apps.android.fdjcompose.data.service.LeagueServiceApi
-import com.appiwedia.apps.android.fdjcompose.domain.mapper.LeaguesDomainMapper
+import com.appiwedia.apps.android.fdjcompose.data.mapper.LeaguesDomainMapper
 import com.appiwedia.apps.android.fdjcompose.domain.use_case.data.FakeLeaguesData
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.single
@@ -39,6 +39,7 @@ class GetLeaguesUseCaseTest {
     fun setUp() {
         mapper = LeaguesDomainMapper()
         val moshiConverterFactory = MoshiConverterFactory.create()
+
         mockWebServer = MockWebServer()
 
         api = Retrofit.Builder().baseUrl(mockWebServer.url("/"))
@@ -73,6 +74,7 @@ class GetLeaguesUseCaseTest {
         mockWebServer.enqueue(response)
 
         val flow = getLeaguesUseCase.invoke()
+
         launch {
             flow.collect {
                 assert(it is Resource.Error)
@@ -90,6 +92,7 @@ class GetLeaguesUseCaseTest {
         mockWebServer.enqueue(response)
 
         val flow = getLeaguesUseCase.invoke()
+
         launch {
             flow.collect {
                 assert((it as Resource.Error).message.equals("Http Exception: HTTP 500 Server Error"))

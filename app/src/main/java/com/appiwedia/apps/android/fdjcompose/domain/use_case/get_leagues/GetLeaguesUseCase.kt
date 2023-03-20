@@ -4,7 +4,7 @@ import com.appiwedia.apps.android.fdjcompose.common.BaseApiResponse
 import com.appiwedia.apps.android.fdjcompose.common.DispatcherProvider
 import com.appiwedia.apps.android.fdjcompose.common.Resource
 import com.appiwedia.apps.android.fdjcompose.data.repository.LeagueRepository
-import com.appiwedia.apps.android.fdjcompose.domain.mapper.LeaguesDomainMapper
+import com.appiwedia.apps.android.fdjcompose.data.mapper.LeaguesDomainMapper
 import com.appiwedia.apps.android.fdjcompose.domain.models.League
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

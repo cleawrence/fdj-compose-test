@@ -1,4 +1,4 @@
-package com.appiwedia.apps.android.fdjcompose.domain.mapper
+package com.appiwedia.apps.android.fdjcompose.data.mapper
 
 import com.appiwedia.apps.android.fdjcompose.common.BaseDomainMapper
 import com.appiwedia.apps.android.fdjcompose.data.remote.dto.league.LeaguesResponse

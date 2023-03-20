@@ -35,7 +35,7 @@ class LeagueRepositoryImplTest {
 
 
     @Test
-    fun verify_correct_team_detail_ajaccacio_are_retrived() = runTest {
+    fun verify_correct_team_detail_ajaccacio_are_retrieved() = runTest {
         val team = TeamDto(
             idTeam = "133702",
             idSoccerXML = "117",
