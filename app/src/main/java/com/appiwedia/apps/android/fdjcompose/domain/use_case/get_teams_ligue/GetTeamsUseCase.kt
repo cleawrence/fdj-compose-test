@@ -1,10 +1,9 @@
 package com.appiwedia.apps.android.fdjcompose.domain.use_case.get_teams_ligue
 
-import com.appiwedia.apps.android.fdjcompose.common.BaseApiResponse
+import com.appiwedia.apps.android.fdjcompose.common.SafeCall
 import com.appiwedia.apps.android.fdjcompose.common.DispatcherProvider
 import com.appiwedia.apps.android.fdjcompose.common.Resource
-import com.appiwedia.apps.android.fdjcompose.data.repository.LeagueRepository
-import com.appiwedia.apps.android.fdjcompose.data.mapper.TeamDomainMapper
+import com.appiwedia.apps.android.fdjcompose.domain.repository.LeagueRepository
 import com.appiwedia.apps.android.fdjcompose.domain.models.Team
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -13,12 +12,11 @@ import javax.inject.Inject
 class GetTeamsUseCase @Inject constructor(
     private val repository: LeagueRepository,
     private val dispatchers: DispatcherProvider,
-    private val mapper: TeamDomainMapper
-) : BaseApiResponse() {
+) : SafeCall() {
 
     operator fun invoke(strTeam: String): Flow<Resource<List<Team>?>> = flow {
         emit(safeApiCall(dispatchers.io) {
-            filterTeamsByDescendingWithOneTimeByTwo(mapper.toDomain(repository.getAllTeams(strTeam)).teams)
+            filterTeamsByDescendingWithOneTimeByTwo(repository.getAllTeams(strTeam).teams)
         })
     }
 

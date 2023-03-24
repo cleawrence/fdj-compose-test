@@ -1,5 +1,7 @@
 package com.appiwedia.apps.android.fdjcompose.data.repository
 
+import com.appiwedia.apps.android.fdjcompose.data.mapper.toLeagues
+import com.appiwedia.apps.android.fdjcompose.data.mapper.toTeams
 import com.appiwedia.apps.android.fdjcompose.data.remote.dto.league.LeaguesResponse
 import com.appiwedia.apps.android.fdjcompose.data.remote.dto.team.TeamDto
 import com.appiwedia.apps.android.fdjcompose.data.remote.dto.team.TeamsResponse
@@ -17,7 +19,7 @@ class LeagueRepositoryImplTest {
 
     @Test
     fun verify_correct_leagues_is_retrieved() = runTest {
-        val leaguesResponse = LeaguesResponse(emptyList())
+        val leaguesResponse = LeaguesResponse(emptyList()).toLeagues()
         Mockito.`when`(api.getAllLeagues()).then { LeaguesResponse(emptyList()) }
 
         val leagues = sut.getAllLeagues()
@@ -27,12 +29,11 @@ class LeagueRepositoryImplTest {
 
     @Test
     fun verify_correct_emptylist_teams_are_retrieved() = runTest {
-        val teamsResponse = TeamsResponse(emptyList())
+        val teamsResponse = TeamsResponse(emptyList()).toTeams()
         Mockito.`when`(api.getAllTeams("")).then { TeamsResponse(emptyList()) }
         val teams = sut.getAllTeams("")
         assert(teamsResponse == teams)
     }
-
 
     @Test
     fun verify_correct_team_detail_ajaccacio_are_retrieved() = runTest {
@@ -106,8 +107,10 @@ class LeagueRepositoryImplTest {
         )
 
         val listTeamDto = listOf(team)
-        val teamDetailResponse = TeamsResponse(listTeamDto)
+        val teamDetailResponse = TeamsResponse(listTeamDto).toTeams()
+
         Mockito.`when`(api.getTeamDetailByName("Ajaccio")).then { TeamsResponse(listTeamDto) }
+
         val teamDetail = sut.getTeamDetailByName("Ajaccio")
         assert(teamDetailResponse.teams[0] == teamDetail.teams[0])
     }

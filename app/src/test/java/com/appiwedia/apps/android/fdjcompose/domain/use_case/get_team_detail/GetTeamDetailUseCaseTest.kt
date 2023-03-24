@@ -4,7 +4,6 @@ import com.appiwedia.apps.android.fdjcompose.CoroutineTestRule
 import com.appiwedia.apps.android.fdjcompose.common.Resource
 import com.appiwedia.apps.android.fdjcompose.data.repository.LeagueRepositoryImpl
 import com.appiwedia.apps.android.fdjcompose.data.service.LeagueServiceApi
-import com.appiwedia.apps.android.fdjcompose.data.mapper.TeamDomainMapper
 import com.appiwedia.apps.android.fdjcompose.domain.use_case.data.FakeTeamDetail
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.single
@@ -27,10 +26,9 @@ class GetTeamDetailUseCaseTest {
     private lateinit var api: LeagueServiceApi
     private val client = OkHttpClient.Builder().build()
     private lateinit var leagueRepository: LeagueRepositoryImpl
-    private lateinit var mapper: TeamDomainMapper
 
     private val getTeamDetailUseCase by lazy {
-        GetTeamDetailUseCase(leagueRepository, coroutinesTestRule.testDispatcherProvider, mapper)
+        GetTeamDetailUseCase(leagueRepository, coroutinesTestRule.testDispatcherProvider)
     }
 
     @get:Rule
@@ -40,7 +38,6 @@ class GetTeamDetailUseCaseTest {
     fun setup() {
         val moshiConverterFactoryFactory = MoshiConverterFactory.create()
         mockWebServer = MockWebServer()
-        mapper = TeamDomainMapper()
 
         api = Retrofit.Builder().baseUrl(mockWebServer.url("/")).client(client)
             .addConverterFactory(moshiConverterFactoryFactory.asLenient()).build()
@@ -109,12 +106,12 @@ class GetTeamDetailUseCaseTest {
         launch {
             flow.collect {
                 assert(it is Resource.Success)
-                assert((it as Resource.Success).data?.strTeam == mapper.toDomain(fakeResponse.second).teams[0].strTeam)
-                assert(it.data?.strLeague == mapper.toDomain(fakeResponse.second).teams[0].strLeague)
-                assert(it.data?.strTeamBadge == mapper.toDomain(fakeResponse.second).teams[0].strTeamBadge)
-                assert(it.data?.strTeamBanner == mapper.toDomain(fakeResponse.second).teams[0].strTeamBanner)
-                assert(it.data?.strCountry == mapper.toDomain(fakeResponse.second).teams[0].strCountry)
-                assert(it.data?.strDescriptionEn == mapper.toDomain(fakeResponse.second).teams[0].strDescriptionEn)
+                assert((it as Resource.Success).data?.strTeam == fakeResponse.second.teams[0].strTeam)
+                assert(it.data?.strLeague == fakeResponse.second.teams[0].strLeague)
+                assert(it.data?.strTeamBadge == fakeResponse.second.teams[0].strTeamBadge)
+                assert(it.data?.strTeamBanner == fakeResponse.second.teams[0].strTeamBanner)
+                assert(it.data?.strCountry == fakeResponse.second.teams[0].strCountry)
+                assert(it.data?.strDescriptionEn == fakeResponse.second.teams[0].strDescriptionEN)
             }
         }
     }

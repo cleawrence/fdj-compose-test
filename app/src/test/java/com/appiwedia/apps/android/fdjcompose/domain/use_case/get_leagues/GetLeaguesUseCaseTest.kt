@@ -4,7 +4,6 @@ import com.appiwedia.apps.android.fdjcompose.CoroutineTestRule
 import com.appiwedia.apps.android.fdjcompose.common.Resource
 import com.appiwedia.apps.android.fdjcompose.data.repository.LeagueRepositoryImpl
 import com.appiwedia.apps.android.fdjcompose.data.service.LeagueServiceApi
-import com.appiwedia.apps.android.fdjcompose.data.mapper.LeaguesDomainMapper
 import com.appiwedia.apps.android.fdjcompose.domain.use_case.data.FakeLeaguesData
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.single
@@ -24,12 +23,11 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 class GetLeaguesUseCaseTest {
     private lateinit var mockWebServer: MockWebServer
     private lateinit var leagueRepository: LeagueRepositoryImpl
-    private lateinit var mapper: LeaguesDomainMapper
     private lateinit var api: LeagueServiceApi
     private val client = OkHttpClient.Builder().build()
 
     private val getLeaguesUseCase by lazy {
-        GetLeaguesUseCase(leagueRepository, coroutinesTestRule.testDispatcherProvider, mapper)
+        GetLeaguesUseCase(leagueRepository, coroutinesTestRule.testDispatcherProvider)
     }
 
     @get:Rule
@@ -37,7 +35,6 @@ class GetLeaguesUseCaseTest {
 
     @Before
     fun setUp() {
-        mapper = LeaguesDomainMapper()
         val moshiConverterFactory = MoshiConverterFactory.create()
 
         mockWebServer = MockWebServer()

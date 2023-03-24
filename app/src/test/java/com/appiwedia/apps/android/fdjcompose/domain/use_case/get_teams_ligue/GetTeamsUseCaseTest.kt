@@ -2,9 +2,9 @@ package com.appiwedia.apps.android.fdjcompose.domain.use_case.get_teams_ligue
 
 import com.appiwedia.apps.android.fdjcompose.CoroutineTestRule
 import com.appiwedia.apps.android.fdjcompose.common.Resource
+import com.appiwedia.apps.android.fdjcompose.data.mapper.toTeam
 import com.appiwedia.apps.android.fdjcompose.data.repository.LeagueRepositoryImpl
 import com.appiwedia.apps.android.fdjcompose.data.service.LeagueServiceApi
-import com.appiwedia.apps.android.fdjcompose.data.mapper.TeamDomainMapper
 import com.appiwedia.apps.android.fdjcompose.domain.use_case.data.FakeTeams
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.single
@@ -26,10 +26,9 @@ class GetTeamsUseCaseTest {
     private lateinit var api: LeagueServiceApi
     private val client = OkHttpClient.Builder().build()
     private lateinit var leagueRepository: LeagueRepositoryImpl
-    private lateinit var mapper: TeamDomainMapper
 
     private val getTeamsUseCase by lazy {
-        GetTeamsUseCase(leagueRepository, coroutinesTestRule.testDispatcherProvider, mapper)
+        GetTeamsUseCase(leagueRepository, coroutinesTestRule.testDispatcherProvider)
     }
 
     @get:Rule
@@ -39,7 +38,6 @@ class GetTeamsUseCaseTest {
     fun setup() {
         val moshiConverterFactoryFactory = MoshiConverterFactory.create()
         mockWebServer = MockWebServer()
-        mapper = TeamDomainMapper()
 
         api = Retrofit.Builder().baseUrl(mockWebServer.url("/"))
             .client(client).addConverterFactory(moshiConverterFactoryFactory.asLenient())
@@ -121,7 +119,7 @@ class GetTeamsUseCaseTest {
 
     @Test
     fun test_filterByDescendingWith1OutOf2_teams() = runTest {
-        val fakeResponse = mapper.toDomain(FakeTeams.build().second).teams
+        val fakeResponse = FakeTeams.build().second.teams.map { it.toTeam() }
         val teamsDescendingOrderWith1OutOf2 =
             getTeamsUseCase.filterTeamsByDescendingWithOneTimeByTwo(fakeResponse)
 

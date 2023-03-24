@@ -8,7 +8,7 @@ import retrofit2.HttpException
 import java.io.IOException
 import java.util.concurrent.TimeoutException
 
-abstract class BaseApiResponse {
+abstract class SafeCall {
     suspend fun <T> safeApiCall(
         dispatcher: CoroutineDispatcher,
         apiCall: suspend () -> T,
